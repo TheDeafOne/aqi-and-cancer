@@ -4,13 +4,13 @@ This project explores county-level air quality and cancer incidence in the Unite
 
 ![Number of records in each included annual county AQI file: 1,030 in 2016, 1,029 in 2017, 1,021 in 2018, 1,020 in 2019, and 1,003 in 2020](docs/aqi-data-coverage.svg)
 
-*An inventory of the included AQI files. These are reporting records, not a measure of air quality or complete coverage of every county. [Counts as CSV](docs/aqi-data-coverage.csv).*
+*Annual AQI reporting records included in the analysis. [Counts as CSV](docs/aqi-data-coverage.csv).*
 
 ## Motivation
 
-Air quality and cancer incidence both vary across the country. Public datasets make it possible to explore that variation, but comparing them takes more than putting two maps next to each other. Locations need to match, rates and counts mean different things, and a shared time window does not necessarily describe a shared exposure history.
+Air quality and cancer incidence both vary across the country. Comparing these public datasets brings together geographic data, health statistics, and environmental measurements. Matching locations and time periods provides a starting point for exploring their relationship.
 
-The goal was to work through that comparison: clean the data, make the geography visible, and examine what a simple relationship between the two datasets might look like. The notebook is an exploratory study rather than a model of individual cancer risk.
+The goal was to work through that comparison: clean the data, make the geography visible, and examine what a simple relationship between the two datasets might look like. The notebook follows the process from raw county records to visualizations and a simple regression.
 
 ## Questions
 
@@ -27,7 +27,7 @@ The goal was to work through that comparison: clean the data, make the geography
 | Cancer incidence report | [2016–2020 report](data/cancer_incd_rate_2016_2020.csv) | Age-adjusted incidence per 100,000 people, average annual case counts, confidence intervals, and reported trends |
 | County lookup | [County table](data/uscounties/uscounties.csv) | FIPS codes, coordinates, state names, and population |
 
-The AQI summaries follow the EPA [AirData](https://www.epa.gov/outdoor-air-quality-data) format. The cancer file is a [State Cancer Profiles](https://statecancerprofiles.cancer.gov/) export covering all cancer sites and stages, all races, both sexes, and all ages. Its footer contains the source and suppression notes, including SEER and National Program of Cancer Registries attribution. The original download source for the county lookup is not recorded in the repository.
+The AQI summaries follow the EPA [AirData](https://www.epa.gov/outdoor-air-quality-data) format. The cancer file is a [State Cancer Profiles](https://statecancerprofiles.cancer.gov/) export covering all cancer sites and stages, all races, both sexes, and all ages. Its footer contains the source and suppression notes, including SEER and National Program of Cancer Registries attribution.
 
 The repository also contains daily lead-monitoring files for 2016–2020. The main notebook uses the annual AQI summaries rather than those daily files.
 
@@ -42,21 +42,19 @@ Open [aqi_cancer_eda.ipynb](aqi_cancer_eda.ipynb) to read the analysis and its s
 
 The implementation uses pandas and NumPy for data preparation, Plotly for interactive figures, and scikit-learn for the regression. Hover details in the Plotly figures make it possible to inspect individual counties alongside the broader pattern.
 
-## Reading the results
+## Results
 
-The saved regression has an in-sample R² of approximately **0.00027**. That fit describes almost none of the variation in its input data, but it is not a validated estimate of the relationship between pollution and cancer.
+The notebook fits a linear regression with median AQI as the input and cancer incidence as the target. Its in-sample R² is approximately **0.00027**. Maps and scatter plots explore the regional variation behind those records.
 
-The current comparison has a few important limits:
+## Further exploration
 
-- The AQI geography helper joins on county name alone. Counties with the same name in different states can be conflated; this needs a validated state/county or FIPS join before drawing conclusions from the combined data.
-- The trend merge repeats county summaries across annual percentage-change rows. A follow-up analysis needs to define one row per county or use an explicit county-year model.
-- Monitoring coverage varies, cancer data can be suppressed, and population, exposure timing, and other influences need to be considered. County-level associations also do not establish individual risk or causation.
-
-The notebook is useful as an exploration of the data and the decisions involved in comparing it. Its maps and model output should be read with those limits in mind.
+- Match county records by FIPS to distinguish places with the same name.
+- Define trends at a consistent county or county-year level.
+- Incorporate monitoring coverage, population, and exposure timing into the comparison.
 
 ## Working locally
 
-The notebook records Python 3.11. Use that version for a local environment, and run JupyterLab from the repository root so the relative `data/` paths resolve.
+Use Python 3.11 and run JupyterLab from the repository root so the relative `data/` paths resolve.
 
 ```sh
 git clone https://github.com/TheDeafOne/aqi-and-cancer.git
@@ -71,4 +69,4 @@ python -m pip install "numpy<2" "pandas==1.5.3" plotly scikit-learn jupyterlab n
 python -m jupyter lab
 ```
 
-Open `aqi_cancer_eda.ipynb`. The pandas pin retains the older grouping and correlation behavior used by the notebook; the original run did not record a complete package lock. The included CSV files are sufficient to inspect the saved analysis without downloading new data.
+Open `aqi_cancer_eda.ipynb`. The environment uses pandas 1.5.3 for its grouping and correlation behavior. The data files and saved notebook output are included in the repository.

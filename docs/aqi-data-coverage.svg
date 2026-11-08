@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
   <title id="title">AQI records in the included annual files</title>
-  <desc id="desc">Source inventory: 2016 has 1030 rows, 2017 has 1029, 2018 has 1021, 2019 has 1020, and 2020 has 1003. Counts describe records in the included files, not an air-quality trend or complete national county coverage.</desc>
+  <desc id="desc">Source inventory: 2016 has 1030 rows, 2017 has 1029, 2018 has 1021, 2019 has 1020, and 2020 has 1003. Counts show reporting records in the annual AQI files.</desc>
   <rect width="1200" height="420" fill="#f8f7f3"/>
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="48" y="50" font-size="16" letter-spacing="2" fill="#356a70">AIR QUALITY AND CANCER</text>
